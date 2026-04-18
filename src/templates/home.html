@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>House Price Predictor</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 800px; }
+        h2 { text-align: center; color: #1c1e21; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+        .group { display: flex; flex-direction: column; }
+        label { font-weight: bold; margin-bottom: 5px; color: #4b4f56; font-size: 14px; }
+        input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; }
+        input:focus { border-color: #3498db; outline: none; }
+        .full-width { grid-column: span 2; }
+        button { background-color: #3498db; color: white; padding: 15px; border: none; border-radius: 6px; font-size: 18px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        button:hover { background-color: #2980b9; }
+        .result { margin-top: 25px; padding: 15px; background: #e7f3ff; border-radius: 6px; text-align: center; font-size: 22px; color: #0e67b4; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Property Details</h2>
+    <form action="{{ url_for('predict_datapoint')}}" method="POST">
+        <div class="grid">
+            <div class="group">
+                <label>Living Area (sqft)</label>
+                <input type="number" step="0.01" name="sqft_living" placeholder="e.g. 2100" required>
+            </div>
+
+            <div class="group">
+                <label>Total Area</label> Area (sqft)</label>
+                <input type="number" step="0.01" name="sqft_Iot" placeholder="e.g. 7900" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Date of Prediction</label>
+              <input class="form-control" type="date" name="date" required />
+             </div>
+            
+            <div class="group">
+                <label>Bedrooms</label>
+                <input type="number" name="bedrooms" placeholder="3" required>
+            </div>
+
+            <div class="group">
+                <label>Bathrooms</label>
+                <input type="number" step="0.1" name="bathrooms" placeholder="2.5" required>
+            </div>
+
+            <div class="group">
+                <label>Floors</label>
+                <input type="number" step="0.5" name="floors" placeholder="1.5" required>
+            </div>
+
+            <div class="group">
+                <label>Sqft Above Ground</label>
+                <input type="number" name="sqft_above" placeholder="1500" required>
+            </div>
+
+            <div class="group">
+                <label>Sqft Basement</label>
+                <input type="number" name="sqft_basement" placeholder="600" required>
+            </div>
+
+            <div class="group">
+                <label>Year Built</label>
+                <input type="number" name="yr_built" placeholder="1995" required>
+            </div>
+
+            <div class="group">
+                <label>Year Renovated (0 if never)</label>
+                <input type="number" name="yr_renovated" placeholder="2010" required>
+            </div>
+
+            <div class="group">
+                <label>Condition (1-5)</label>
+                <input type="number" name="condition" min="1" max="5" value="3" required>
+            </div>
+
+            <div class="group">
+                <label>View Quality (0-4)</label>
+                <input type="number" name="view" min="0" max="4" value="0" required>
+            </div>
+
+            <div class="group">
+                <label>Waterfront (0 or 1)</label>
+                <input type="number" name="waterfront" min="0" max="1" value="0" required>
+            </div>
+
+            <div class="group">
+                <label>State Zip Code</label>
+                <input type="text" name="statezip" placeholder="WA 98103" required>
+            </div>
+
+            <div class="full-width">
+                <button type="submit">Predict House Price</button>
+            </div>
+        </div>
+    </form>
+
+    {% if results %}
+    <div class="result">
+        Predicted Value: ${{results}}
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
